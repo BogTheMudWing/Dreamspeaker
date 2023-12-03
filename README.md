@@ -19,6 +19,8 @@ This installation is intended for Ubuntu 18.04 / 20.04 / 22.04. I hope to add Wi
 5. Copy the URL and open it. Invite the bot to your server. Go back to the **Bot** tab and find the _Bot Token_. Reset and copy it. We'll need it later.
 
 ### 2. Install
+Clone this repository or download it as a ZIP and extract to a convenient location.
+
 Run the  `install.sh` script. If double-clicking it does not work, enable execution in the properties or use `bash path/to/install.sh` in a terminal.
 
 Paste the bot token into the prompt, then wait while installation occurs. After installation, you will be asked if you want to run the bot. Whether you do or not, you will need to accept coqui's EULA and download the XTTS v1.1 model when you run the bot for the first time. Simple type `y` and press enter at the prompts.

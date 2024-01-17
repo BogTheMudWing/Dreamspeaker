@@ -25,7 +25,11 @@ print(TTS().list_models())
 # Init TTS
 engine = TTS("tts_models/multilingual/multi-dataset/xtts_v1.1").to(device)
 
+# Ensures only one clip plays at a time
 SERVING_REQUEST = False
+
+# Ensures clips are played in order of request
+queuedClips = list()
 
 @bot.event
 async def on_ready():
@@ -74,8 +78,8 @@ async def tts(ctx, *, text):
     engine.tts_to_file(text=fixedtext, speaker_wav=file, language="en", file_path=filename)
     print("File written.")
 
-    # Send the synthesized voice as a Discord voice message
-    # await ctx.send("Recreating voice...", file=discord.File('output.wav'))
+    # Add to list
+    queuedClips.append(filename)
     
     # Wait for previous request to complete
     while SERVING_REQUEST:
@@ -90,14 +94,14 @@ async def tts(ctx, *, text):
     except discord.errors.ClientException:
         vc = get(bot.voice_clients, guild=ctx.guild)
         print("Already connected to VC.")
-    vc.play(discord.FFmpegPCMAudio(executable="ffmpeg", source=filename))
+    vc.play(discord.FFmpegPCMAudio(executable="ffmpeg", source=queuedClips[0]))
     # Sleep while audio is playing.
     while vc.is_playing():
         await sleep(.1)
     # await vc.disconnect()
     
     # Delete file after playing
-    os.remove(filename)
+    os.remove(queuedClips.pop(0))
     
     SERVING_REQUEST = False
     print("Done!")
@@ -141,5 +145,17 @@ async def voice(ctx, voice, *, text):
     os.remove(filename)
     
     print("Done!")
+
+@bot.command(pass_context=True)
+async def leave(ctx):
+    
+    if not ctx.voice_client:
+        await ctx.send('I am not currently connected to a voice channel.')
+        return
+    
+    if ctx.author.voice.channel and ctx.author.voice.channel == ctx.voice_client.channel:
+        await ctx.voice_client.disconnect()
+    else:
+        await ctx.send('You have to be connected to the same voice channel to disconnect me.')
 
 bot.run(TOKEN)

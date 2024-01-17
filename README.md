@@ -36,4 +36,8 @@ Use TTS. This command must be used while in a VC. The user must have their own r
 
 ### `!voice <voice> <message>`
 
-Generate a file from a voice. Voices are stored in the `voices` folder. I've included the `dramatic` voice, which comes from a public-domain LibreVox audiobook.
+Generate a file from a voice. Voices are stored in the `voices` folder. I've included the `dramatic` voice, which comes from a public-domain LibreVox audiobook. The reader's name is Martin Martin Geeson.
+
+### `!leave`
+
+Ask the bot to leave the voice channel.

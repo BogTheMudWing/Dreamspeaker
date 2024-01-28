@@ -1,6 +1,8 @@
 # Dreamspeaker
 A deep learning Discord TTS bot that clones voices.
 
+![https://i.ytimg.com/vi_webp/NdyOZWh9vNo/maxresdefault.webp](https://youtu.be/NdyOZWh9vNo)
+
 This project actually started off as a joke. Me and my friends like to use a TTS bot so that if someone can’t speak, they can still take part in conversation. I find that it’s easy for people to ignore mute users because you have to actively monitor the chat. When using a TTS bot, people can better participate in conversation because you can actually be heard.
 
 The only problem is that it becomes more difficult to figure out who is speaking, especially when multiple people are using TTS. Hearing a distinct and recognizable voice allows you to subconsciously link the voice to a person at any time in the sentence.

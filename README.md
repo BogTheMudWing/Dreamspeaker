@@ -23,7 +23,7 @@ Clone this repository or download it as a ZIP and extract to a convenient locati
 
 Run the  `install.sh` script. If double-clicking it does not work, enable execution in the properties or use `bash path/to/install.sh` in a terminal.
 
-Paste the bot token into the prompt, then wait while installation occurs. After installation, you will be asked if you want to run the bot. Whether you do or not, you will need to accept coqui's EULA and download the XTTS v1.1 model when you run the bot for the first time. Simple type `y` and press enter at the prompts.
+Paste the bot token into the prompt, then wait while installation occurs. After installation, you will be asked if you want to run the bot. Whether you do or not, you will need to accept coqui's EULA and download the XTTS v1.1 model when you run the bot for the first time. Simply type `y` and press enter at the prompts.
 
 ### 3. Setup
 You're done with installation! Now you just need to add reference audio files. See below for more information.

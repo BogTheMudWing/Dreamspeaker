@@ -16,21 +16,62 @@ All of the actual AI processing is from a project called [coqui](https://github.
 This installation is intended for Ubuntu 18.04 / 20.04 / 22.04. I hope to add Windows 10/11 and MacOS automatic installation in the future.
 
 ### 1. Create a Discord bot
+
 1. Go to https://discord.com/developers/applications and create a new application. Give it any name, description, or icon.
-2. Go to the **Bot** tab and create a bot. Give it a name.
+2. Go to the **Bot** tab.
 3. Scroll down and look for MESSAGE CONTENT INTENT under _Privileged Gateway Intents_. Enable the toggle.
-4. Under the **OAuth2** tab, go to **URL Generator**. Check the _bot_ box. In the second table, check the _Read Messages/View Channels_, _Connect_, _Speak_, _Send Messages_, and _Attach Files_ boxes.
-5. Copy the URL and open it. Invite the bot to your server. Go back to the **Bot** tab and find the _Bot Token_. Reset and copy it. We'll need it later.
+4. Under the **OAuth2** tab, go to **OAuth2 URL Generator**. Check the _bot_ box. In the second table, check the _Read Messages/View Channels_, _Connect_, _Speak_, _Send Messages_, and _Attach Files_ boxes.
+5. Copy the URL and open it. Invite the bot to your server. Repeat for any servers you want to add the bot to.
+6. Go back to the **Bot** tab and find the _Token_. Reset and copy it into a temporary text file. We'll need it later.
 
 ### 2. Install
+
 Clone this repository or download it as a ZIP and extract to a convenient location.
 
-Run the  `install.sh` script. If double-clicking it does not work, enable execution in the properties or use `bash path/to/install.sh` in a terminal.
+```bash
+git clone https://github.com/BogTheMudWing/Dreamspaker.git
+```
 
-Paste the bot token into the prompt, then wait while installation occurs. After installation, you will be asked if you want to run the bot. Whether you do or not, you will need to accept coqui's EULA and download the XTTS v1.1 model when you run the bot for the first time. Simply type `y` and press enter at the prompts.
+Create and activate a virtual environment. Python 3.10 is recommended, but you may be able to use others.
 
-### 3. Setup
+```bash
+python3.10 -m venv ./venv
+source ./venv/bin/activate
+```
+
+Install requirements.
+
+```bash
+pip install TTS
+git clone https://github.com/coqui-ai/TTS
+pip install -e ./TTS/
+```
+
+Make and install TTS.
+
+```bash
+make system-deps
+make install
+rm ./install
+```
+
+Close your terminal to exit the virtual environment.
+
+### 3. Configure
+
+Open `Dreamspeaker.py` and replace `YOUR_BOT_TOKEN` with your bot token.
+
 You're done with installation! Now you just need to add reference audio files. See below for more information.
+
+## Operation
+
+Each time you want to start the bot, run this command:
+
+```bash
+./venv/bin/python Dreamspeaker.py
+```
+
+When you want to shut down the bot, press `Ctrl + C`. It may take a while to shut down completely, but it is not dangerous to repeat `Ctrl + C` to ask it to stop.
 
 ## Commands
 

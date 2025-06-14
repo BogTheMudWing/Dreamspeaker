@@ -15,7 +15,7 @@ import emoji
 from collections import deque
 from TTS.api import TTS
 
-# Replace '127' with your bot token
+# Replace 'YOUR_BOT_TOKEN' with your bot token
 TOKEN = 'YOUR_BOT_TOKEN'
 
 # Discord bot setup
@@ -35,8 +35,6 @@ SERVING_REQUEST = False
 # Ensures clips are played in order of request
 queuedClips: deque = deque()
 requests: deque = deque()
-
-# engine.tts_to_file(text=fixedtext, speaker_wav=file, language="en", file_path=filename)
 
 @bot.event
 async def on_ready():

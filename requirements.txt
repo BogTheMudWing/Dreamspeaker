@@ -1,0 +1,6 @@
+discord.py[voice]==2.5.2
+emoji==2.14.1
+pydub==0.25.1
+python-dotenv==1.1.0
+torch==2.5.1
+torchaudio==2.5.1

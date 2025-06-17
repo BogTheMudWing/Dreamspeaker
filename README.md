@@ -1,19 +1,26 @@
 # Dreamspeaker
+
 A deep learning Discord TTS bot that clones voices.
 
 *Click the video thumbnail below to watch the YouTube video.*
 
 [![YouTube Video](https://i.ytimg.com/vi_webp/NdyOZWh9vNo/maxresdefault.webp)](https://youtu.be/NdyOZWh9vNo)
 
+## About
+
 This project actually started off as a joke. Me and my friends like to use a TTS bot so that if someone can’t speak, they can still take part in conversation. I find that it’s easy for people to ignore mute users because you have to actively monitor the chat. When using a TTS bot, people can better participate in conversation because you can actually be heard.
 
 The only problem is that it becomes more difficult to figure out who is speaking, especially when multiple people are using TTS. Hearing a distinct and recognizable voice allows you to subconsciously link the voice to a person at any time in the sentence.
 
-All of the actual AI processing is from a project called [coqui](https://github.com/coqui-ai/TTS). It’s a super capable toolkit and all credit for the voice processing goes to them. To actually make it clone a voice, it needs a reference recording. Any recording will do, but I’ve found it works best when reading the FitnessGram Pacer Test introduction. Then, test with some different phrases and if the bot struggles with a sentence, add to the recording your own reading of the sentence. Rinse and repeat until it can properly speak sentences. The bot automatically uses the correct reference based on the command sender. That way, only you can use your voice.
+All of the actual AI processing is from a project called [coqui](https://github.com/coqui-ai/TTS). It’s a super capable toolkit and all credit for the voice processing goes to them. To actually make it clone a voice, it needs a reference recording. Any recording will do, and you only really need between five and twenty seconds of audio. The bot automatically uses the correct reference based on the command sender. That way, only you can use your voice.
 
 ## Installation
 
-This installation is intended for Ubuntu 18.04 / 20.04 / 22.04. I hope to add Windows 10/11 and MacOS automatic installation in the future.
+> [!WARNING]
+>
+> This project uses Coqui XTTS v2, which allows only non-commercial use of the model and its outputs. **Using this bot for commercial purposes is not permitted.**
+>
+> You can read the full Coqui Public Model License 1.0.0 at <https://coqui.ai/cpml>.
 
 ### 1. Create a Discord bot
 
@@ -30,6 +37,7 @@ Clone this repository or download it as a ZIP and extract to a convenient locati
 
 ```bash
 git clone https://github.com/BogTheMudWing/Dreamspaker.git
+cd Dreamspeaker
 ```
 
 Create and activate a virtual environment. Python 3.10 is recommended, but you may be able to use others.
@@ -39,29 +47,32 @@ python3.10 -m venv ./venv
 source ./venv/bin/activate
 ```
 
-Install requirements.
+Install ffmpeg. This will differ depending on your operating system, so search for instructions.
+
+Install requirements. It may take a while. It took 15 minutes for me.
 
 ```bash
-pip install TTS
+# The tmp directory is temporarily changed here because I ran into issues where my default /tmp is not large enough, and you may run into the same issue.
+TMPDIR=/var/tmp pip install -r requirements.txt
 git clone https://github.com/coqui-ai/TTS
 pip install -e ./TTS/
 ```
 
-Make and install TTS.
+Add your bot token to .env. Replace `YOUR_BOT_TOKEN_HERE` with your bot token.
 
 ```bash
-make system-deps
-make install
-rm ./install
+echo BOT_TOKEN=YOUR_BOT_TOKEN_HERE >> .env
 ```
 
-Close your terminal to exit the virtual environment.
+Start the bot to initialize the model.
 
-### 3. Configure
+```bash
+python Dreamspeaker.py
+```
 
-Open `Dreamspeaker.py` and replace `YOUR_BOT_TOKEN` with your bot token.
+At the prompt, input `y` to accept the terms of the non-commercial CPML, then wait for the model to download.
 
-You're done with installation! Now you just need to add reference audio files. See below for more information.
+At this point, you can start using it or stop it with Ctrl + C.
 
 ## Operation
 
@@ -71,13 +82,17 @@ Each time you want to start the bot, run this command:
 ./venv/bin/python Dreamspeaker.py
 ```
 
-When you want to shut down the bot, press `Ctrl + C`. It may take a while to shut down completely, but it is not dangerous to repeat `Ctrl + C` to ask it to stop.
+When you want to shut down the bot, press `Ctrl + C`. It may take a while to shut down completely, but it is not dangerous to repeat `Ctrl + C` to ask it to stop. You can delete `compose.yml` if you want to, but it is useful to have for future maintenance.
 
 ## Commands
 
+### `!ref`
+
+Add a reference for yourself. When you use this command, upload an audio file as an attachment of your voice (or whatever voice you want your TTS to sound like). The file will be automatically converted to WAV and saved. If you already had a reference, it will be overwritten. 
+
 ### `!tts <message>`
 
-Use TTS. This command must be used while in a VC. The user must have their own reference audio file in the `reference` folder with the name `[usermame].wav`, replacing `[username]` with the username of the user (not their server nickname).
+Use TTS. This command must be used while in a VC. The user must have their own reference audio file in the `reference` folder with the name `[usermame].wav`, replacing `[username]` with the username of the user (not their server nickname). This can be set by them using the `!ref` command above.
 
 ### `!voice <voice> <message>`
 
@@ -86,3 +101,18 @@ Generate a file from a voice. Voices are stored in the `voices` folder. I've inc
 ### `!leave`
 
 Ask the bot to leave the voice channel.
+
+## Uninstallation
+
+Delete the Dreamspeaker folder.
+
+## Thanks to
+
+- Coqui for the TTS engine and model.
+- Discord for their developer API.
+- discord.py for the Discord Python library.
+- GitHub for hosting my code.
+
+---
+
+[![BogTheMudWing](https://nextcloud.macver.org/apps/files_sharing/publicpreview/jyWLnm4i724mxXg?file=/&fileId=61792&x=3390&y=1906&a=true&etag=c43260166526abc326861afd5244df8e)](https://blog.macver.org/about-me)

@@ -14,9 +14,12 @@ import functools
 import emoji
 from collections import deque
 from TTS.api import TTS
+from dotenv import load_dotenv
+from io import BytesIO
 
-# Replace 'YOUR_BOT_TOKEN' with your bot token
-TOKEN = 'YOUR_BOT_TOKEN'
+load_dotenv()
+
+TOKEN = os.getenv('BOT_TOKEN')
 
 # Discord bot setup
 intents = discord.Intents.default()
@@ -201,6 +204,32 @@ async def leave(ctx):
         await ctx.send(
             "You have to be connected to the same voice channel to disconnect me."
         )
+
+@bot.command(pass_context=True)
+async def ref(ctx):
+    # Check if there are attachments in the message
+    if ctx.message.attachments:
+        for attachment in ctx.message.attachments:
+            # Check if the attachment is an audio file
+            if attachment.filename.endswith(('.mp3', '.wav', '.ogg', '.flac', '.m4a')):
+                # Download the file into memory (no need to save it first)
+                audio_data = await attachment.read()
+                                
+                # Use pydub to process the audio and convert it to WAV format
+                try:
+                    audio = AudioSegment.from_file(BytesIO(audio_data), format=attachment.filename.split('.')[-1])
+                    wav_filename = ctx.message.author.name + ".wav"
+                    file_path = os.path.join("./reference", wav_filename)
+                    
+                    # Export the audio as a WAV file
+                    audio.export(file_path, format="wav")
+                    await ctx.send(f"Audio saved and converted to WAV as {wav_filename}")
+                except Exception as e:
+                    await ctx.send(f"Error converting audio: {e}")
+            else:
+                await ctx.send("The attached file is not an audio file.")
+    else:
+        await ctx.send("No attachments found in the message.")
 
 
 bot.run(TOKEN)
